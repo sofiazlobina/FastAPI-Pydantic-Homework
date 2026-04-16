@@ -1,9 +1,13 @@
-from pydantic import BaseModel, EmailStr, field_validator, model_validator, Field
+from pydantic import BaseModel, EmailStr, ConfigDict, field_validator, model_validator, Field
 from datetime import datetime
 import re
 
 
 class UserRegistration(BaseModel):
+    model_config = ConfigDict(
+        from_attributes=True,
+        populate_by_name=True
+    )
     username: str
     email: EmailStr
     password: str
