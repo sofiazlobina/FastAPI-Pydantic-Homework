@@ -1,6 +1,6 @@
 from __future__ import annotations
-from typing import Optional
 from pydantic import BaseModel
+from typing import Optional
 import json
 
 
@@ -12,7 +12,7 @@ class Node(BaseModel):
 Node.model_rebuild()
 
 
-# пример входных данных
+# тестовые данные (произвольная вложенность)
 example_data = {
     "data": "root",
     "child": {
@@ -20,7 +20,10 @@ example_data = {
         "child": {
             "data": "level2",
             "child": {
-                "data": "level3"
+                "data": "level3",
+                "child": {
+                    "data": "level4"
+                }
             }
         }
     }
@@ -31,10 +34,10 @@ def main():
     try:
         node = Node(**example_data)
 
-        print("Объект успешно создан:")
+        print("Объект создан успешно:\n")
         print(node)
 
-        print("\nСериализация в JSON:")
+        print("\JSON (serialize):\n")
         print(json.dumps(node.model_dump(), indent=4, ensure_ascii=False))
 
     except Exception as e:
