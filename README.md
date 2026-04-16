@@ -7,13 +7,13 @@ FastAPI и Pydantic
 
 ## Структура проекта
 
-### task1_user_registration
+1. task1_user_registration
 Базовая модель регистрации пользователя с валидацией
 
-### task2_extended_registration
+2. task2_extended_registration
 Расширенная модель (добавлены имя и телефон)
 
-### task3_recursive_model
+3. task3_recursive_model
 Рекурсивная модель для вложенных JSON-структур
 
 ## Используемые технологии
@@ -23,6 +23,7 @@ FastAPI и Pydantic
 
 ## Как запустить
 pip install -r requirements.txt
+
 python main.py
 
 ## Реализованный функционал
