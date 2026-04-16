@@ -60,3 +60,19 @@ def register_user(data: dict):
 
     except Exception as e:
         return str(e)
+
+def main():
+    data = {
+        "username": "test_user",
+        "email": "test@mail.com",
+        "password": "Test1234",
+        "password_confirm": "Test1234",
+        "age": 25
+    }
+
+    result = register_user(data)
+    print(result)
+
+
+if __name__ == "__main__":
+    main()
