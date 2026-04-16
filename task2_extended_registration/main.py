@@ -9,6 +9,8 @@ class UserRegistration(BaseModel):
     password: str
     password_confirm: str
     age: int
+    full_name: str
+    phone: str
     registration_date: datetime = Field(default_factory=datetime.now)
 
     # username
@@ -18,6 +20,15 @@ class UserRegistration(BaseModel):
             raise ValueError("Username должен быть от 3 до 20 символов")
         if not re.match(r"^[a-zA-Z0-9_]+$", v):
             raise ValueError("Username может содержать только латинские буквы, цифры и _")
+        return v
+    
+    # full_name
+    @field_validator("full_name")
+    def validate_full_name(cls, v):
+        if len(v) < 2:
+            raise ValueError("Имя должно содержать минимум 2 символа")
+        if not v[0].isupper():
+            raise ValueError("Имя должно начинаться с заглавной буквы")
         return v
 
     # password
@@ -38,6 +49,13 @@ class UserRegistration(BaseModel):
     def validate_age(cls, v):
         if not (18 <= v <= 120):
             raise ValueError("Возраст должен быть от 18 до 120")
+        return v
+    
+    # phone
+    @field_validator("phone")
+    def validate_phone(cls, v):
+        if not re.match(r"^\+\d-\d{3}-\d{2}-\d{2}$", v):
+            raise ValueError("Телефон должен быть в формате +X-XXX-XX-XX")
         return v
 
     # password confirm
