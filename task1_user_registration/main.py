@@ -4,10 +4,8 @@ import re
 
 
 class UserRegistration(BaseModel):
-    model_config = ConfigDict(
-        from_attributes=True,
-        populate_by_name=True
-    )
+    model_config = ConfigDict()
+
     username: str
     email: EmailStr
     password: str
@@ -51,15 +49,14 @@ class UserRegistration(BaseModel):
             raise ValueError("Пароли не совпадают")
         return self
 
-    class Config:
-        # скрываем password_confirm при выводе
-        fields = {"password_confirm": {"exclude": True}}
-
 
 # функция регистрации
 def register_user(data: dict):
     try:
         user = UserRegistration(**data)
-        return user
+
+        # убираем password_confirm из вывода (правильный способ v2)
+        return user.model_dump(exclude={"password_confirm"})
+
     except Exception as e:
         return str(e)
