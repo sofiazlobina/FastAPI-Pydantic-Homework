@@ -1,7 +1,15 @@
 from pydantic import BaseModel, EmailStr, ConfigDict, field_validator, model_validator, Field
 from datetime import datetime
 import re
+from fastapi import FastAPI
 
+app = FastAPI(
+    title="User Registration API",
+    description="API для валидации регистрации пользователей (Pydantic)",
+    version="1.0.0",
+    docs_url="/user/docs",
+    redoc_url="/user/redoc"
+)
 
 class UserRegistration(BaseModel):
     model_config = ConfigDict()
