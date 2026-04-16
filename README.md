@@ -7,14 +7,11 @@ FastAPI и Pydantic
 
 ## Структура проекта
 
-1. task1_user_registration
-Базовая модель регистрации пользователя с валидацией
+1. task1_user_registration - базовая модель регистрации пользователя с валидацией
 
-2. task2_extended_registration
-Расширенная модель (добавлены имя и телефон)
+2. task2_extended_registration - расширенная модель (добавлены имя и телефон)
 
-3. task3_recursive_model
-Рекурсивная модель для вложенных JSON-структур
+3. task3_recursive_model - рекурсивная модель для вложенных JSON-структур
 
 ## Используемые технологии
 - Python 3
@@ -22,9 +19,8 @@ FastAPI и Pydantic
 - Pydantic
 
 ## Как запустить
-pip install -r requirements.txt
-
-python main.py
+- pip install -r requirements.txt
+- python main.py
 
 ## Реализованный функционал
 - Валидация username, email, password
