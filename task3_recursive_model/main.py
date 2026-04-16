@@ -1,61 +1,46 @@
-from pydantic import BaseModel, EmailStr, field_validator, model_validator, Field
-from datetime import datetime
-import re
+from __future__ import annotations
+from typing import Optional
+from pydantic import BaseModel
+import json
 
 
-class UserRegistration(BaseModel):
-    username: str
-    email: EmailStr
-    password: str
-    password_confirm: str
-    age: int
-    registration_date: datetime = Field(default_factory=datetime.now)
-
-    # username
-    @field_validator("username")
-    def validate_username(cls, v):
-        if not (3 <= len(v) <= 20):
-            raise ValueError("Username должен быть от 3 до 20 символов")
-        if not re.match(r"^[a-zA-Z0-9_]+$", v):
-            raise ValueError("Username может содержать только латинские буквы, цифры и _")
-        return v
-
-    # password
-    @field_validator("password")
-    def validate_password(cls, v):
-        if len(v) < 8:
-            raise ValueError("Пароль должен быть не менее 8 символов")
-        if not re.search(r"\d", v):
-            raise ValueError("Пароль должен содержать хотя бы одну цифру")
-        if not re.search(r"[A-Z]", v):
-            raise ValueError("Пароль должен содержать хотя бы одну заглавную букву")
-        if not re.search(r"[a-z]", v):
-            raise ValueError("Пароль должен содержать хотя бы одну строчную букву")
-        return v
-
-    # age
-    @field_validator("age")
-    def validate_age(cls, v):
-        if not (18 <= v <= 120):
-            raise ValueError("Возраст должен быть от 18 до 120")
-        return v
-
-    # password confirm
-    @model_validator(mode="after")
-    def check_passwords(self):
-        if self.password != self.password_confirm:
-            raise ValueError("Пароли не совпадают")
-        return self
-
-    class Config:
-        # скрываем password_confirm при выводе
-        fields = {"password_confirm": {"exclude": True}}
+class Node(BaseModel):
+    data: str
+    child: Optional["Node"] = None
 
 
-# функция регистрации
-def register_user(data: dict):
+Node.model_rebuild()
+
+
+# пример входных данных
+example_data = {
+    "data": "root",
+    "child": {
+        "data": "level1",
+        "child": {
+            "data": "level2",
+            "child": {
+                "data": "level3"
+            }
+        }
+    }
+}
+
+
+def main():
     try:
-        user = UserRegistration(**data)
-        return user
+        node = Node(**example_data)
+
+        print("Объект успешно создан:")
+        print(node)
+
+        print("\nСериализация в JSON:")
+        print(json.dumps(node.model_dump(), indent=4, ensure_ascii=False))
+
     except Exception as e:
-        return str(e)
+        print("Ошибка:")
+        print(e)
+
+
+if __name__ == "__main__":
+    main()
